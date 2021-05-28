@@ -1,0 +1,33 @@
+plugins {
+    id 'org.springframework.boot' version '2.4.4'
+}
+apply plugin: 'java'
+apply plugin: 'io.spring.dependency-management'
+
+repositories {
+    mavenCentral()
+}
+
+tasks.named('wrapper') {
+    gradleVersion = '6.5.1'
+}
+
+dependencies {
+    runtimeOnly 'com.h2database:h2'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation group: 'org.testng', name: 'testng', version: '7.3.0'
+}
+
+test {
+    useTestNG() {
+//        useDefaultListeners = false
+        testLogging.showStandardStreams = true
+    }
+}
+
+bootRun {
+    main = 'example.Application'
+    classpath sourceSets.main.runtimeClasspath
+//    jvmArgs += ["-javaagent:" + springAgent.path]
+}
